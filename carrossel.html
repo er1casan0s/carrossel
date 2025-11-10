@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrossel Automático Simples</title>
+    <style>
+        /* ===== RESET E CONFIGURAÇÕES GERAIS ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: white;
+            padding: 20px;
+        }
+
+        /* ===== CONTAINER PRINCIPAL DO CARROSSEL ===== */
+        .carrossel {
+            width: 100%;
+            max-width: 900px; /* Largura máxima do carrossel */
+            position: relative; /* Para posicionar elementos filhos absolutamente */
+            overflow: hidden; /* Esconde as imagens que estão fora da área visível */
+            border-radius: 15px; /* Cantos arredondados */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Sombra para efeito de profundidade */
+        }
+
+        /* ===== CONTAINER DOS SLIDES ===== */
+        .slides-container {
+            width: 400%; /* 400% porque temos 4 slides (100% cada) */
+            display: flex; /* Coloca os slides lado a lado */
+            
+            /* ANIMAÇÃO PRINCIPAL: 
+               - Nome: slide (referencia os @keyframes)
+               - Duração: 20s (20 segundos para completar um ciclo)
+               - Repetição: infinite (loop infinito)
+               - Timing: linear (velocidade constante) */
+            animation: slide 10s infinite linear;
+        }
+
+        /* ===== ESTILO DE CADA SLIDE INDIVIDUAL ===== */
+        .slide {
+            width: 25%; /* Cada slide ocupa 25% do container (100% ÷ 4 slides) */
+            position: relative; /* Para posicionar a legenda absolutamente */
+        }
+
+        /* ===== ESTILO DAS IMAGENS DENTRO DOS SLIDES ===== */
+        .slide img {
+            width: 100%; /* A imagem ocupa 100% da largura do slide */
+            height: 500px; /* Altura fixa para todas as imagens */
+            object-fit: cover; /* Ajusta a imagem para cobrir todo o espaço sem distorcer */
+            display: block; /* Remove espaços em branco abaixo da imagem */
+        }
+
+        /* ===== LEGENDAS DAS IMAGENS ===== */
+        .legenda {
+            position: absolute; /* Posiciona a legenda sobre a imagem */
+            bottom: 0; /* Coloca no fundo do slide */
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.6); /* Fundo escuro semi-transparente */
+            color: white; /* Texto branco */
+            padding: 15px; /* Espaçamento interno */
+            text-align: center; /* Centraliza o texto */
+            font-size: 1.2rem; /* Tamanho da fonte */
+        }
+
+        /* ===== ANIMAÇÃO PRINCIPAL DO CARROSSEL ===== */
+        @keyframes slide {
+            /* INÍCIO: Mostra a primeira imagem */
+            0% {
+                transform: translateX(0%); /* Posição inicial */
+            }
+            /* FIM DA PRIMEIRA IMAGEM: 20% do tempo total (4s) */
+            20% {
+                transform: translateX(0%);
+            }
+            /* TRANSIÇÃO PARA SEGUNDA IMAGEM: 25% do tempo (5s) */
+            25% {
+                transform: translateX(-25%); /* Move para mostrar a segunda imagem */
+            }
+            /* FIM DA SEGUNDA IMAGEM: 45% do tempo (9s) */
+            45% {
+                transform: translateX(-25%);
+            }
+            /* TRANSIÇÃO PARA TERCEIRA IMAGEM: 50% do tempo (10s) */
+            50% {
+                transform: translateX(-50%); /* Move para mostrar a terceira imagem */
+            }
+            /* FIM DA TERCEIRA IMAGEM: 70% do tempo (14s) */
+            70% {
+                transform: translateX(-50%);
+            }
+            /* TRANSIÇÃO PARA QUARTA IMAGEM: 75% do tempo (15s) */
+            75% {
+                transform: translateX(-75%); /* Move para mostrar a quarta imagem */
+            }
+            /* FIM DA QUARTA IMAGEM: 95% do tempo (19s) */
+            95% {
+                transform: translateX(-75%);
+            }
+            /* VOLTA PARA PRIMEIRA IMAGEM: 100% do tempo (20s) */
+            100% {
+                transform: translateX(0%); /* Volta para a posição inicial */
+            }
+        }
+
+        /* ===== INDICADORES (BOLINHAS) ===== */
+        .indicadores {
+            position: absolute; /* Posiciona sobre o carrossel */
+            bottom: 20px; /* Distância do fundo */
+            left: 50%; /* Centraliza horizontalmente */
+            transform: translateX(-50%); /* Ajuste fino para centralização perfeita */
+            display: flex; /* Coloca as bolinhas lado a lado */
+            gap: 10px; /* Espaço entre as bolinhas */
+        }
+
+        .indicador {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.5); /* Cor semi-transparente */
+            border-radius: 50%; /* Transforma em círculo */
+            cursor: pointer; /* Mãozinha ao passar o mouse */
+            
+            /* Animação individual para cada indicador */
+            animation: piscar 20s infinite linear;
+        }
+
+        /* Atrasos diferentes para cada indicador */
+        .indicador:nth-child(1) {
+            animation-delay: 0s;
+        }
+        .indicador:nth-child(2) {
+            animation-delay: 5s;
+        }
+        .indicador:nth-child(3) {
+            animation-delay: 10s;
+        }
+        .indicador:nth-child(4) {
+            animation-delay: 15s;
+        }
+
+        /* ===== ANIMAÇÃO DOS INDICADORES ===== */
+        @keyframes piscar {
+            0%, 20% {
+                background: white; /* Indicador ativo (branco) */
+                transform: scale(1.2); /* Leve aumento */
+            }
+            21%, 100% {
+                background: rgba(255, 255, 255, 0.5); /* Indicador inativo */
+                transform: scale(1); /* Tamanho normal */
+            }
+        }
+
+        /* ===== PAUSA AO PASSAR O MOUSE ===== */
+        .carrossel:hover .slides-container {
+            animation-play-state: paused; /* Pausa a animação principal */
+        }
+
+        .carrossel:hover .indicador {
+            animation-play-state: paused; /* Pausa a animação dos indicadores */
+        }
+
+        /* ===== RESPONSIVIDADE ===== */
+        @media (max-width: 768px) {
+            .slide img {
+                height: 350px; /* Altura menor em telas pequenas */
+            }
+            
+            .legenda {
+                font-size: 1rem; /* Texto menor em telas pequenas */
+                padding: 10px;
+            }
+            
+            .indicadores {
+                bottom: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slide img {
+                height: 250px; /* Altura ainda menor em celulares */
+            }
+            
+            .legenda {
+                font-size: 0.9rem;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="carrossel">
+        <!-- ===== CONTAINER DOS SLIDES ===== -->
+        <div class="slides-container">
+            
+            <!-- ===== SLIDE 1 ===== -->
+            <div class="slide">
+                <!-- SUBSTITUA ESTA URL PELA SUA PRIMEIRA IMAGEM -->
+                <img src="https://picsum.photos/900/500?random=1" alt="Imagem 1">
+                <div class="legenda">Paisagem Natural</div>
+            </div>
+            
+            <!-- ===== SLIDE 2 ===== -->
+            <div class="slide">
+                <!-- SUBSTITUA ESTA URL PELA SUA SEGUNDA IMAGEM -->
+                <img src="https://picsum.photos/900/500?random=2" alt="Imagem 2">
+                <div class="legenda">Cidade Moderna</div>
+            </div>
+            
+            <!-- ===== SLIDE 3 ===== -->
+            <div class="slide">
+                <!-- SUBSTITUA ESTA URL PELA SUA TERCEIRA IMAGEM -->
+                <img src="https://picsum.photos/900/500?random=3" alt="Imagem 3">
+                <div class="legenda">Praia Tropical</div>
+            </div>
+            
+            <!-- ===== SLIDE 4 ===== -->
+            <div class="slide">
+                <!-- SUBSTITUA ESTA URL PELA SUA QUARTA IMAGEM -->
+                <img src="https://picsum.photos/900/500?random=4" alt="Imagem 4">
+                <div class="legenda">Montanhas</div>
+            </div>
+            
+            <!-- ===== PARA ADICIONAR MAIS SLIDES: =====
+            1. COLE ESTE BLOCO AQUI (APÓS O SLIDE 4):
+            
+            <div class="slide">
+                <img src="URL_DA_SUA_IMAGEM" alt="Descrição da imagem">
+                <div class="legenda">Sua legenda aqui</div>
+            </div>
+            
+            2. ATUALIZE O CSS:
+            - Altere a largura do .slides-container para: (número de slides × 100)%
+            - Altere a largura do .slide para: (100 ÷ número de slides)%
+            - Adicione novos pontos na animação @keyframes slide
+            - Adicione um novo .indicador no HTML
+            -->
+            
+        </div>
+        
+        <!-- ===== INDICADORES (BOLINHAS) ===== -->
+        <div class="indicadores">
+            <div class="indicador"></div>
+            <div class="indicador"></div>
+            <div class="indicador"></div>
+            <div class="indicador"></div>
+            
+            <!-- ===== PARA ADICIONAR MAIS INDICADORES: =====
+            <div class="indicador"></div>
+            -->
+        </div>
+    </div>
+</body>
+</html>
