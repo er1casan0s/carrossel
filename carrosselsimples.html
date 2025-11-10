@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrossel Simples</title>
+    <style>
+      /* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #f0f0f0;
+}
+
+/* Container principal do carrossel */
+.carrossel {
+    width: 100%;
+    max-width: 800px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* Container dos slides */
+.slides {
+    width: 100%;
+    position: relative;
+}
+
+/* Esconde os radio buttons */
+.slides input {
+    display: none;
+}
+
+/* Container que envolve todos os slides */
+.slide-container {
+    width: 300%; /* 300% porque temos 3 slides (100% cada) */
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* Cada slide individual */
+.slide {
+    width: 33.333%; /* Cada slide ocupa 1/3 do container (100% / 3 slides) */
+}
+
+/* Estilo das imagens */
+.slide img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Navegação automática (as barrinhas) */
+.navegacao {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+.barra {
+    height: 5px;
+    width: 30px;
+    background: rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.barra:hover {
+    background: rgba(255,255,255,0.8);
+}
+
+/* Navegação manual (bolinhas) */
+.navegacao-manual {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+}
+
+.manual-btn {
+    width: 12px;
+    height: 12px;
+    border: 2px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.manual-btn:hover {
+    background: white;
+}
+
+/* LÓGICA DO CARROSSEL - A MAGAÇÃO ACONTECE AQUI */
+
+/* Quando o radio button #slide1 está checked, move o container para a posição 0 */
+#slide1:checked ~ .slide-container {
+    transform: translateX(0%);
+}
+
+/* Quando o radio button #slide2 está checked, move o container para -33.333% (mostra o segundo slide) */
+#slide2:checked ~ .slide-container {
+    transform: translateX(-33.333%);
+}
+
+/* Quando o radio button #slide3 está checked, move o container para -66.666% (mostra o terceiro slide) */
+#slide3:checked ~ .slide-container {
+    transform: translateX(-66.666%);
+}
+
+/* Muda a cor da barrinha ativa */
+#slide1:checked ~ .navegacao .barra:nth-child(1),
+#slide2:checked ~ .navegacao .barra:nth-child(2),
+#slide3:checked ~ .navegacao .barra:nth-child(3) {
+    background: white;
+}
+
+/* Muda a cor da bolinha ativa */
+#slide1:checked ~ .navegacao-manual .manual-btn:nth-child(1),
+#slide2:checked ~ .navegacao-manual .manual-btn:nth-child(2),
+#slide3:checked ~ .navegacao-manual .manual-btn:nth-child(3) {
+    background: white;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .slide img {
+        height: 300px;
+    }
+    
+    .navegacao {
+        bottom: 10px;
+    }
+    
+    .navegacao-manual {
+        bottom: 40px;
+    }
+}
+  </style>
+</head>
+<body>
+    <div class="carrossel">
+        <!-- Container das imagens -->
+        <div class="slides">
+            <!-- Radio buttons para controlar qual slide aparece -->
+            <input type="radio" name="slide" id="slide1" checked>
+            <input type="radio" name="slide" id="slide2">
+            <input type="radio" name="slide" id="slide3">
+            
+            <!-- Container dos slides -->
+            <div class="slide-container">
+                <!-- Slide 1 -->
+                <div class="slide">
+                    <img src="https://picsum.photos/800/400?random=1" alt="Imagem 1">
+                </div>
+                <!-- Slide 2 -->
+                <div class="slide">
+                    <img src="https://picsum.photos/800/400?random=2" alt="Imagem 2">
+                </div>
+                <!-- Slide 3 -->
+                <div class="slide">
+                    <img src="https://picsum.photos/800/400?random=3" alt="Imagem 3">
+                </div>
+            </div>
+            
+            <!-- Navegação - labels que funcionam como botões -->
+            <div class="navegacao">
+                <label for="slide1" class="barra"></label>
+                <label for="slide2" class="barra"></label>
+                <label for="slide3" class="barra"></label>
+            </div>
+            
+            <!-- Navegação manual (setas) -->
+            <div class="navegacao-manual">
+                <label for="slide1" class="manual-btn"></label>
+                <label for="slide2" class="manual-btn"></label>
+                <label for="slide3" class="manual-btn"></label>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
